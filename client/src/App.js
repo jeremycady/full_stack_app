@@ -1,6 +1,16 @@
 import React, { useState, useEffect} from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link, 
+  Redirect
+} from "react-router-dom";
+
+// import Components
 import Header from './Components/Header';
 import Courses from './Components/Courses';
+import CourseDetail from './Components/CourseDetail';
 
 function App() {
   const [data, setData] = useState([]);
@@ -15,7 +25,13 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      <Courses />
+      <Router>
+        <Route exact path="/">
+          <Redirect to="/courses" />
+        </Route>
+        <Route exact path="/courses" render={Courses}/>
+        <Route path="/courses/:id" render={CourseDetail}/>
+      </Router>
     </React.Fragment>
   );
 }
