@@ -12,6 +12,7 @@ import Header from './Components/Header';
 import Courses from './Components/Courses';
 import CourseDetail from './Components/CourseDetail';
 import UserSignIn from './Components/UserSignIn';
+import UserSignUp from './Components/UserSignUp';
 
 function App() {
   const [data, setData] = useState([]);
@@ -33,6 +34,7 @@ function App() {
         <Route exact path="/courses" render={Courses}/>
         <Route path="/courses/:id" render={CourseDetail}/>
         <Route path ="/signin" render={UserSignIn}/>
+        <Route path ="/signup" render={UserSignUp}/>
       </Router>
     </React.Fragment>
   );
