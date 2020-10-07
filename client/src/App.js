@@ -1,9 +1,7 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
-  Link, 
   Redirect
 } from "react-router-dom";
 
@@ -15,14 +13,6 @@ import UserSignIn from './Components/UserSignIn';
 import UserSignUp from './Components/UserSignUp';
 
 function App() {
-  const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   fetch('http://localhost:5000/api/courses')
-  //     .then(response => response.json())
-  //     .then(result => setData(result));
-  //   console.log(data);
-  // },[]);
 
   return (
     <React.Fragment>
