@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import Header from './Components/Header';
+import Courses from './Components/Courses';
 
 function App() {
   const [data, setData] = useState([]);
@@ -12,7 +13,10 @@ function App() {
   // },[]);
 
   return (
-    <Header />
+    <React.Fragment>
+      <Header />
+      <Courses />
+    </React.Fragment>
   );
 }
 

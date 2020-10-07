@@ -11,7 +11,7 @@ const Header = () => {
       </div>
       <hr />
     </React.Fragment>
-  )
+  );
 };
 
 export default Header;
