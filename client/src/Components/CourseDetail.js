@@ -5,7 +5,6 @@ const CourseDetail = ({match}) => {
 
   let id = 1;
   
-
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
       .then(res => res.json())
