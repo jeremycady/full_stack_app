@@ -29,7 +29,7 @@ function App() {
 
   return (
     <React.Fragment>
-      <Header />
+      <Header authUser={authUser} setAuthUser={setAuthUser}/>
       <Router>
         <Route exact path="/">
           <Redirect to="/courses" />

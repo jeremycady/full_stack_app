@@ -8,20 +8,25 @@ const UserSignIn = (props) => {
   const history = useHistory();
 
   async function handleSubmit(event) {
+    let status;
     event.preventDefault();
     await fetch('http://localhost:5000/api/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        // 'Authorization': 'Basic ' + btoa(`${formInfo.emailAddress}:${formInfo.password}`),
-        'Authorization': 'Basic ' + btoa(`joe@smith.com:joepassword`),
+        'Authorization': 'Basic ' + btoa(`${formInfo.emailAddress}:${formInfo.password}`),
       },
       credentials: 'same-origin',
     })
     .then(res => res.json())
-    .then(data => setAuthUser(data))
+    .then(data => {
+      console.log(data)
+      setAuthUser({emailaddress: formInfo.emailAddress, password: formInfo.password, firstName: data.firstName});
+      history.push('/');
+    })
+    .catch(err => console.log('Wrong authentication'))
 
-    history.push('/');
+    
   }
 
   function handleCancel(event) {

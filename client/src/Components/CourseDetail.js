@@ -12,7 +12,7 @@ const CourseDetail = ({match}) => {
       .catch(err => console.log(err));
   }, [id]);
 
-  let ownerData = {...course.owner};
+  const ownerData = {...course.owner};
   
   return (
     <div>
