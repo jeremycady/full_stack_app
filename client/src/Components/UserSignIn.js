@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import btoa from 'btoa';
-import Cookies from 'js-cookie';
 
 const UserSignIn = (props) => {
-  const { authUser, setAuthUser } = props;
+  const { setAuthUser } = props;
   const [ formInfo, setFormInfo ] = useState({emailAddress: '', password: ''});
+  const history = useHistory();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -20,12 +20,13 @@ const UserSignIn = (props) => {
     })
     .then(res => res.json())
     .then(data => setAuthUser(data))
-    .finally(Cookies.set('authUser', JSON.stringify(authUser), {expires: 1}));
+
+    history.push('/');
   }
 
   function handleCancel(event) {
     event.preventDefault();
-    // cancel();
+    history.push('/');
   } 
 
   const change = (event) => {
@@ -46,7 +47,7 @@ const UserSignIn = (props) => {
             </div>
             <div className="grid-100 pad-bottom">
               <button className="button" type="submit">Sign In</button>
-              {/* <button className="button button-secondary" onclick="location.href='/';">Cancel</button> */}
+              <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
             </div>
           </form>
         </div>
