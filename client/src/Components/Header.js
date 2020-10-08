@@ -11,7 +11,7 @@ const Header = (props) => {
     <React.Fragment>
       <div className="header">
         <div className="bounds">
-          <h1 className="header--logo">Courses</h1>
+          <a href="/"><h1 className="header--logo">Courses</h1></a>
           {
             authUser
             ? <nav><span>{`Welcome, ${authUser.firstName}!`}</span><a className="signing" onClick={signOut} href="/">Sign Out</a></nav>

@@ -1,6 +1,7 @@
 import React from 'react';
 
-const CreateCourse = () => {
+const CreateCourse = (props) => {
+  const {authUser} = props;
 
   return (
     <div class="bounds course--detail">
@@ -21,7 +22,7 @@ const CreateCourse = () => {
             <h4 class="course--label">Course</h4>
             <div><input id="title" name="title" type="text" class="input-title course--title--input" placeholder="Course title..."
                 value="" /></div>
-            <p>By Joe Smith</p>
+            <p>{`By ${authUser.firstName} ${authUser.lastName}`}</p>
           </div>
           <div class="course--description">
             <div><textarea id="description" name="description" class="" placeholder="Course description..."></textarea></div>

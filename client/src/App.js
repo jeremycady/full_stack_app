@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 // import Components
-import PrivacyRoute from './PrivacyRoute';
+import PrivateRoute from './PrivateRoute';
 import Header from './Components/Header';
 import Courses from './Components/Courses';
 import CourseDetail from './Components/CourseDetail';
@@ -38,18 +38,19 @@ function App() {
         <Switch>
           <Route exact path="/courses" render={ () => <Courses /> }/>
           <Route path="/courses/create" render={() =>
-            <PrivacyRoute authUser={authUser}>
+            <PrivateRoute authUser={authUser}>
               <CreateCourse authUser={authUser}/>
-            </PrivacyRoute>
+            </PrivateRoute>
           }/>
           <Route exact path="/courses/:id" render={ () => <CourseDetail /> }/>
           <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
           <Route path="/signup" render={UserSignUp}/>
-          <Route path="/courses/:id/update" render={() => 
-            <PrivacyRoute authUser={authUser}>
+          <PrivateRoute path="/courses/:id/update" authUser={authUser} render={() => <UpdateCourse authUser={authUser} />} />
+          {/* <Route path="/courses/:id/update" render={() => 
+            <PrivateRoute authUser={authUser}>
               <UpdateCourse authUser={authUser}/>
-            </PrivacyRoute>
-          }/>
+            </PrivateRoute>
+          }/> */}
         </Switch>
       </Router>
     </React.Fragment>
