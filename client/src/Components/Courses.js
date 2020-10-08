@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import Course from './Course';
 
 const Courses = () => {
+  const [courses, setCourses] = useState([]); 
+
+  let courseList;
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/courses')
+      .then(res => res.json())
+      .then(data => setCourses(data))
+      .catch(err => console.log(err))
+      
+  }, []);
+
+  if (courses) {
+    courseList = courses.map(course => <Course id={course.id} title={course.title} key={course.id}/>);
+  }
+
   return (
     <div className="bounds">
-        <div className="grid-33"><a className="course--module course--link" href="/courses/1">
-            <h4 className="course--label">Course</h4>
-            <h3 className="course--title">Build a Basic Bookcase</h3>
-          </a></div>
-        <div className="grid-33"><a className="course--module course--link" href="/courses/2">
-            <h4 className="course--label">Course</h4>
-            <h3 className="course--title">Learn How to Program</h3>
-          </a></div>
-        <div className="grid-33"><a className="course--module course--link" href="courses/3">
-            <h4 className="course--label">Course</h4>
-            <h3 className="course--title">Learn How to Test Programs</h3>
-          </a></div>
+        {courseList}
         <div className="grid-33"><a className="course--module course--add--module" href="create-course.html">
             <h3 className="course--add--title"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
                 viewBox="0 0 13 13" className="add">
@@ -23,6 +29,6 @@ const Courses = () => {
           </a></div>
       </div>
   );
-};
+}
 
 export default Courses;
