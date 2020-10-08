@@ -8,7 +8,6 @@ const UserSignIn = (props) => {
   const history = useHistory();
 
   async function handleSubmit(event) {
-    let status;
     event.preventDefault();
     await fetch('http://localhost:5000/api/users', {
       method: 'GET',
@@ -20,7 +19,6 @@ const UserSignIn = (props) => {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data)
       setAuthUser({emailaddress: formInfo.emailAddress, password: formInfo.password, firstName: data.firstName});
       history.push('/');
     })

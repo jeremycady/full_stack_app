@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 // import Components
+import PrivacyRoute from './PrivacyRoute';
 import Header from './Components/Header';
 import Courses from './Components/Courses';
 import CourseDetail from './Components/CourseDetail';
@@ -36,11 +37,19 @@ function App() {
         </Route>
         <Switch>
           <Route exact path="/courses" render={ () => <Courses /> }/>
-          <Route path="/courses/create" render={CreateCourse}/>
+          <Route path="/courses/create" render={() =>
+            <PrivacyRoute authUser={authUser}>
+              <CreateCourse authUser={authUser}/>
+            </PrivacyRoute>
+          }/>
           <Route exact path="/courses/:id" render={ () => <CourseDetail /> }/>
           <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
           <Route path="/signup" render={UserSignUp}/>
-          <Route path="/courses/:id/update" render={UpdateCourse}/>
+          <Route path="/courses/:id/update" render={() => 
+            <PrivacyRoute authUser={authUser}>
+              <UpdateCourse authUser={authUser}/>
+            </PrivacyRoute>
+          }/>
         </Switch>
       </Router>
     </React.Fragment>
