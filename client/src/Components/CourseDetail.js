@@ -4,6 +4,7 @@ const CourseDetail = ({match}) => {
   const [course, setCourse] = useState({});
 
   let id = 1;
+  
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
@@ -14,6 +15,8 @@ const CourseDetail = ({match}) => {
 
   console.log(course.owner);
   // console.log(course.owner.firstName)
+  let ownerData = {...course.owner};
+  console.log(ownerData.firstName);
 
   return (
     <div>
@@ -28,7 +31,7 @@ const CourseDetail = ({match}) => {
             <div className="course--header">
               <h4 className="course--label">Course</h4>
               <h3 className="course--title">{course.title}</h3>
-              {/* <p>By {course.owner.firstName} {course.owner.lastame}</p> */}
+              <p>By {ownerData.firstName} {ownerData.lastname}</p>
             </div>
             <div className="course--description">
               {course.description}
