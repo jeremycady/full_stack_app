@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import {
   BrowserRouter as Router,
   Route,
@@ -16,6 +17,7 @@ import CreateCourse from './Components/CreateCourse';
 import UpdateCourse from './Components/UpdateCourse';
 
 function App() {
+  const [authUser, setAuthUser] = useState(Cookies.getJSON('authUser') || null);
 
   return (
     <React.Fragment>
@@ -25,12 +27,10 @@ function App() {
           <Redirect to="/courses" />
         </Route>
         <Switch>
-          <Route exact path="/courses">
-            <Courses />
-          </Route>
+          <Route exact path="/courses" render={ () => <Courses /> }/>
           <Route path="/courses/create" render={CreateCourse}/>
           <Route exact path="/courses/:id" render={ () => <CourseDetail /> }/>
-          <Route path="/signin" render={UserSignIn}/>
+          <Route path="/signin" render={ () => <UserSignIn authUser={authUser} setAuthUser={setAuthUser} />}/>
           <Route path="/signup" render={UserSignUp}/>
           <Route path="/courses/:id/update" render={UpdateCourse}/>
         </Switch>

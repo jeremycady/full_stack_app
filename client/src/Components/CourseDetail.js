@@ -12,11 +12,8 @@ const CourseDetail = ({match}) => {
       .catch(err => console.log(err));
   }, [id]);
 
-  console.log(course.owner);
-  // console.log(course.owner.firstName)
   let ownerData = {...course.owner};
-  console.log(ownerData.firstName);
-
+  
   return (
     <div>
         <div className="actions--bar">
