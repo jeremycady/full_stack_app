@@ -29,7 +29,7 @@ function App() {
             <Courses />
           </Route>
           <Route path="/courses/create" render={CreateCourse}/>
-          <Route exact path="/courses/:id" render={CourseDetail}/>
+          <Route exact path="/courses/:id" render={ () => <CourseDetail /> }/>
           <Route path="/signin" render={UserSignIn}/>
           <Route path="/signup" render={UserSignUp}/>
           <Route path="/courses/:id/update" render={UpdateCourse}/>
