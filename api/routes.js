@@ -3,6 +3,7 @@ const router = express.Router();
 const { sequelize, User, Course } = require('./models');
 const auth = require('basic-auth');
 const bcryptjs = require('bcryptjs');
+const cors = require('cors');
 
 // Handler function to wrap each async route.
 const asyncHandler = (cb) => {
@@ -91,7 +92,6 @@ router.get('/courses', async (req, res) => {
       },
     ],
   });
-  // console.log(courses.map(course => course.get({ plain: true })));
   res.json(courses);
 });
 
@@ -103,7 +103,10 @@ router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
   
   try {
     const createCourse = await Course.create(course);
-    res.status(201).set('Location', `/courses/${createCourse.id}`).end();
+    res.status(201).header({
+      'Access-Control-Expose-Headers': 'Location',
+      'Location': `/courses/${createCourse.id}`
+    }).end();
   } catch(error) {
     if (error.name === 'SequelizeValidationError') {
       const errors = error.errors.map(err => err.message);

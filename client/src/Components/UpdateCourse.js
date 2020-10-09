@@ -8,8 +8,6 @@ const UpdateCourse = (props) => {
   const [errors, setErrors] = useState({});
   const {authUser} = props;
   const history = useHistory();
-  const emailAddress = JSON.parse(Cookies.get('authUser')).emailAddress;
-  const password = JSON.parse(Cookies.get('authUser')).password;
 
   let id = props.computedMatch.params.id;
   
@@ -37,6 +35,9 @@ const UpdateCourse = (props) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const emailAddress = JSON.parse(Cookies.get('authUser')).emailAddress;
+    const password = JSON.parse(Cookies.get('authUser')).password;
+    
     await fetch(`http://localhost:5000/api/courses/${id}`, {
       method: 'PUT',
       headers: {
@@ -59,12 +60,12 @@ const UpdateCourse = (props) => {
               <div className="course--header">
                 <h4 className="course--label">Course</h4>
                 <div><input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..."
-                    value={`${course.title}`} onChange={handleChange} /></div>
+                    value={course.title} onChange={handleChange} /></div>
                 <p>{`By ${authUser.firstName} ${authUser.lastName}`}</p>
               </div>
               <div className="course--description">
                 <div>
-                  <textarea id="description" name="description" className="" placeholder="Course description..." value={`${course.description}`} onChange={handleChange}/>
+                  <textarea id="description" name="description" className="" placeholder="Course description..." value={course.description} onChange={handleChange}/>
                 </div>
               </div>
             </div>
@@ -74,12 +75,12 @@ const UpdateCourse = (props) => {
                   <li className="course--stats--list--item">
                     <h4>Estimated Time</h4>
                     <div><input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input"
-                        placeholder="Hours" value={`${course.estimatedTime}`} onChange={handleChange}/></div>
+                        placeholder="Hours" value={course.estimatedTime} onChange={handleChange}/></div>
                   </li>
                   <li className="course--stats--list--item">
                     <h4>Materials Needed</h4>
                     <div>
-                      <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." value={`${course.materialsNeeded}`} onChange={handleChange}/>
+                      <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." value={course.materialsNeeded} onChange={handleChange}/>
                     </div>
                   </li>
                 </ul>
