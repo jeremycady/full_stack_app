@@ -16,6 +16,7 @@ import UserSignIn from './Components/UserSignIn';
 import UserSignUp from './Components/UserSignUp';
 import CreateCourse from './Components/CreateCourse';
 import UpdateCourse from './Components/UpdateCourse';
+import NotFound from './Components/NotFound';
 
 function App() {
   const [authUser, setAuthUser] = useState(Cookies.getJSON('authUser') || null);
@@ -41,6 +42,7 @@ function App() {
         <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
         <Route path="/signup" render={UserSignUp}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
+        <Route path="/notfound" component={NotFound}/>
       </Switch>
     </Router>
   );
