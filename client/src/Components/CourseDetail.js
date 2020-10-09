@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const CourseDetail = ({match}) => {
   const [course, setCourse] = useState({});
+  const [isOwner, setIsOwner] = useState(true);
+  const history = useHistory();
+  const ownerError = () => {
+    return (
+      <div>
+        <h2 className="validation--errors--label">Update Error</h2>
+        <div className="validation-errors">
+          <ul>
+            <li>You are not Authorized to update this course</li>
+          </ul>
+        </div>
+      </div>
+    );
+  };
 
-  let id = 1;
+  let id = match.params.id;
   
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${id}`)
@@ -13,16 +29,28 @@ const CourseDetail = ({match}) => {
   }, [id]);
 
   const ownerData = {...course.owner};
+
+  const updateHandler = () => {
+    if (ownerData.emailAddress === JSON.parse(Cookies.get('authUser')).emailAddress) {
+      history.push(`/courses/${id}/update`);
+    } else {
+      setIsOwner(false);
+    }
+  };
   
   return (
     <div>
         <div className="actions--bar">
           <div className="bounds">
-            <div className="grid-100"><span><a className="button" href={`/courses/${course.id}/update`}>Update Course</a><a className="button" href={`/courses/${course.id}/delete`}>Delete Course</a></span><a
+            <div className="grid-100"><span><span className="button" onClick={updateHandler}>Update Course</span><a className="button" href={`/courses/${course.id}/delete`}>Delete Course</a></span><a
                 className="button button-secondary" href="/">Return to List</a></div>
           </div>
         </div>
         <div className="bounds course--detail">
+
+          {!isOwner && ownerError()}
+          
+
           <div className="grid-66">
             <div className="course--header">
               <h4 className="course--label">Course</h4>

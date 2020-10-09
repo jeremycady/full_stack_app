@@ -22,38 +22,27 @@ function App() {
 
   useEffect(() => {
     if (authUser) {
-      Cookies.set('authUser', JSON.stringify(authUser), {expires: 1});
+      Cookies.set('authUser', authUser, {expires: 1});
     } else {
       Cookies.remove('authUser')
     }
   }, [authUser]);
 
   return (
-    <React.Fragment>
+    <Router>
       <Header authUser={authUser} setAuthUser={setAuthUser}/>
-      <Router>
-        <Route exact path="/">
-          <Redirect to="/courses" />
-        </Route>
-        <Switch>
-          <Route exact path="/courses" render={ () => <Courses /> }/>
-          <Route path="/courses/create" render={() =>
-            <PrivateRoute authUser={authUser}>
-              <CreateCourse authUser={authUser}/>
-            </PrivateRoute>
-          }/>
-          <Route exact path="/courses/:id" render={ () => <CourseDetail /> }/>
-          <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
-          <Route path="/signup" render={UserSignUp}/>
-          <PrivateRoute path="/courses/:id/update" authUser={authUser} render={() => <UpdateCourse authUser={authUser} />} />
-          {/* <Route path="/courses/:id/update" render={() => 
-            <PrivateRoute authUser={authUser}>
-              <UpdateCourse authUser={authUser}/>
-            </PrivateRoute>
-          }/> */}
-        </Switch>
-      </Router>
-    </React.Fragment>
+      <Route exact path="/">
+        <Redirect to="/courses" />
+      </Route>
+      <Switch>
+        <Route exact path="/courses" render={ () => <Courses /> }/>
+        <PrivateRoute path="/courses/create" authUser={authUser} Component={CreateCourse} />
+        <Route exact path="/courses/:id" component={CourseDetail}/>
+        <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
+        <Route path="/signup" render={UserSignUp}/>
+        <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
+      </Switch>
+    </Router>
   );
 }
 

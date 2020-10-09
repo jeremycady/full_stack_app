@@ -4,18 +4,12 @@ import {
   Redirect
 } from 'react-router-dom';
 
-const PrivateRoute = ({children, ...props}) => {
-  const {authUser, path} = props;
-  console.log(path);
-  return (
-    <Route path={path}>
-      {
-        authUser
-        ? children
-        : <Redirect to="/signin"/>
-      }
-    </Route>
-  );
+const PrivateRoute = (props) => {
+  const {authUser, path, Component} = props;
+  if (authUser)
+    return (<Route path={path} render={_=> <Component authUser={authUser} {...props}/>} />)
+  else
+    return (<Redirect to='/signin'/>);
 };
 
 export default PrivateRoute;
