@@ -5,7 +5,6 @@ const CourseDetail = (props) => {
   const {authUser, match } = props;
   const [course, setCourse] = useState({});
   const [isOwner, setIsOwner] = useState(true);
-  const [errors, setErrors] = useState({});
   const history = useHistory();
 
   const ownerError = () => {
@@ -23,18 +22,28 @@ const CourseDetail = (props) => {
   
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${match.params.id}`)
-      .then(res => res.json())
-      .then(data => setCourse(data))
-      .catch(err => console.log(err));
+    .then(res => handleInitialFetch(res))
+    .catch(err => console.log(err));
   }, []);
 
   const ownerData = {...course.owner};
 
-  const handleUpdate = () => {
-    if (ownerData.emailAddress === authUser.emailAddress) {
-      history.push(`/courses/${match.params.id}/update`);
+  async function handleInitialFetch(res) {
+    const data = await res.json();
+    if (res.status === 200) {
+      setCourse(data);
     } else {
+      history.push('/notfound');
+    }
+    
+
+  };
+
+  const handleUpdate = () => {
+    if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
       setIsOwner(false);
+    } else {
+      history.push(`/courses/${match.params.id}/update`);
     }
   };
 
@@ -55,7 +64,7 @@ const CourseDetail = (props) => {
       credentials: 'same-origin',
     })
     .then(res => checkStatus(res.status))
-    .catch(err => setErrors(err))
+    .catch(err => console.log(err))
     } else {
       setIsOwner(false);
     }

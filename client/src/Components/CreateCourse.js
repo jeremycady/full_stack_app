@@ -47,7 +47,7 @@ const CreateCourse = (props) => {
     })
     .then(res => res.headers.get('Location'))
     .then(location => history.push(location))
-    .catch(err => setErrors(errors))
+    .catch(err => setErrors(err))
   }
 
   return (

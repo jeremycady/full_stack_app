@@ -20,7 +20,11 @@ const UserSignIn = (props) => {
     .then(res => res.json())
     .then(data => {
       setAuthUser({emailAddress: formInfo.emailAddress, password: formInfo.password, firstName: data.firstName, lastName: data.lastName});
-      history.push('/');
+      if (props.location.from) {
+        history.push(props.location.from)
+      } else {
+        history.push('/');
+      }
     })
     .catch(err => console.log('Wrong authentication'))
 

@@ -139,7 +139,12 @@ router.get('/courses/:id', asyncHandler( async (req, res) => {
     ],
   });
 
-  res.json(course);
+  if (course) {
+    res.json(course);
+  } else {
+    res.status(404).end();
+  }
+  
 }));
 
 router.put('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {

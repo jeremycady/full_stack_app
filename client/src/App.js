@@ -39,7 +39,7 @@ function App() {
         <Route exact path="/courses" render={ () => <Courses /> }/>
         <PrivateRoute path="/courses/create" authUser={authUser} Component={CreateCourse} />
         <Route exact path="/courses/:id" render={(props) => <CourseDetail authUser={authUser} {...props}/>}/>
-        <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
+        <Route path="/signin" render={ (props) => <UserSignIn setAuthUser={setAuthUser} {...props}/>}/>
         <Route path="/signup" render={UserSignUp}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
         <Route path="/notfound" component={NotFound}/>

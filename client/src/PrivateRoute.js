@@ -7,9 +7,12 @@ import {
 const PrivateRoute = (props) => {
   const {authUser, path, Component} = props;
   if (authUser)
-    return (<Route path={path} render={_=> <Component authUser={authUser} {...props}/>} />)
+    return (<Route render={_=> <Component authUser={authUser} {...props}/>} />)
   else
-    return (<Redirect to='/signin'/>);
+    return (<Redirect from={path} to={{
+      pathname: '/signin',
+      from: props.location
+    }} />);
 };
 
 export default PrivateRoute;
