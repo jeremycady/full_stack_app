@@ -4,24 +4,27 @@ import btoa from 'btoa';
 
 const UpdateCourse = (props) => {
   const [course, setCourse] = useState({});
-  const [errors, setErrors] = useState({});
   const {authUser} = props;
   const history = useHistory();
   
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${props.computedMatch.params.id}`)
-      .then(res => handleInitialFetch(res))
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else if (res.status === 500) {
+          return history.push('/error');
+        } else {
+          history.push('/notfound');
+        }
+      })
+      .then(data => {
+        if (data) {
+          return setCourse(data);
+        }
+      })
       .catch(err => console.log(err));
-  }, [props.computedMatch.params.id]);
-
-  async function handleInitialFetch(res) {
-    if (res.status === 200) {
-      const data = await res.json();
-      setCourse(data);
-    } else {
-      history.push('/notfound');
-    }
-  };
+  }, [history, props.computedMatch.params.id]);
 
   const handleCancel = e => {
     e.preventDefault();
@@ -31,12 +34,6 @@ const UpdateCourse = (props) => {
   const handleChange = (event) => {
     setCourse({...course, [event.target.name]: event.target.value});
   }
-
-  const checkStatus = (status) => {
-    if (status === 204) {
-      history.push(`/courses/${props.computedMatch.params.id}`);
-    }
-  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -50,8 +47,13 @@ const UpdateCourse = (props) => {
       credentials: 'same-origin',
       body: JSON.stringify(course),
     })
-    .then(res => checkStatus(res.status))
-    .catch(err => setErrors(errors))
+    .then(res => {
+      if (res.status === 204) {
+        history.push(`/courses/${props.computedMatch.params.id}`);
+      } else if (res.status === 500) {
+        return history.push('/error');
+      }})
+    .catch(err => console.log(err))
   }
 
   return (

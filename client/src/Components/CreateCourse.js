@@ -4,8 +4,6 @@ import { useHistory } from 'react-router-dom';
 
 const CreateCourse = (props) => {
   const [course, setCourse] = useState({});
-  const [errors, setErrors] = useState({});
-  const [isError, setIsError] = useState(false);
   const {authUser} = props;
   const history = useHistory();
 
@@ -17,19 +15,6 @@ const CreateCourse = (props) => {
   const handleChange = (event) => {
     setCourse({...course, [event.target.name]: event.target.value});
   }
-
-  const validationError = (errors) => {
-    return (
-      <div>
-        <h2 className="validation--errors--label">Update Error</h2>
-        <div className="validation-errors">
-          <ul>
-            <li>You are not Authorized to update this course</li>
-          </ul>
-        </div>
-      </div>
-    );
-  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -45,17 +30,21 @@ const CreateCourse = (props) => {
       credentials: 'same-origin',
       body: JSON.stringify(course),
     })
-    .then(res => res.headers.get('Location'))
+    .then(res => {
+      if (res.status === 500) {
+        return history.push('/error');
+      } else {
+        return res.headers.get('Location');
+      }
+    })
     .then(location => history.push(location))
-    .catch(err => setErrors(err))
+    .catch(err => console.log(err))
   }
 
   return (
     <div className="bounds course--detail">
     <h1>Create Course</h1>
       <div>
-       {isError && validationError()}
-
       <form onSubmit={handleSubmit}>
         <div className="grid-66">
           <div className="course--header">

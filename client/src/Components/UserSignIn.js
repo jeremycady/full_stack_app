@@ -17,7 +17,13 @@ const UserSignIn = (props) => {
       },
       credentials: 'same-origin',
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.status === 500) {
+        return history.push('/error');
+      } else {
+        return res.json();
+      }
+    })
     .then(data => {
       setAuthUser({emailAddress: formInfo.emailAddress, password: formInfo.password, firstName: data.firstName, lastName: data.lastName});
       if (props.location.from) {

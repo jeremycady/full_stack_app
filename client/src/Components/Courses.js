@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import {useHistory} from 'react-router-dom';
 import Course from './Course';
 
 const Courses = () => {
   const [courses, setCourses] = useState([]); 
+  const history = useHistory();
 
   let courseList;
 
   useEffect(() => {
+    
     fetch('http://localhost:5000/api/courses')
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 500) {
+          return history.push('/error');
+        } else {
+          return res.json();
+        }})
       .then(data => setCourses(data))
       .catch(err => console.log(err))
       
-  }, []);
+  }, [history]);
 
   if (courses) {
     courseList = courses.map(course => <Course id={course.id} title={course.title} key={course.id}/>);

@@ -8,20 +8,24 @@ const CourseDetail = (props) => {
   
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${match.params.id}`)
-    .then(res => handleInitialFetch(res))
+    .then(res => {
+      if (res.status === 200) {
+        return res.json();
+      } else if (res.status === 500) {
+        return history.push('/error');
+      } else {
+        return history.push('/notfound');
+      }
+    })
+    .then(data => {
+      if (data) {
+        return setCourse(data)
+      }
+    })
     .catch(err => console.log(err));
-  }, []);
+  }, [history, match.params.id]);
 
   const ownerData = {...course.owner};
-
-  async function handleInitialFetch(res) {
-    if (res.status === 200) {
-      const data = await res.json();
-      setCourse(data);
-    } else {
-      history.push('/notfound');
-    }
-  };
 
   const handleUpdate = () => {
     if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
@@ -34,6 +38,8 @@ const CourseDetail = (props) => {
   const checkStatus = (status) => {
     if (status === 204) {
       history.push(`/courses`);
+    } else if (status === 500) {
+      history.push('/error');
     }
   };
 

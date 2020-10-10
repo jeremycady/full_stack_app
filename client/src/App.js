@@ -17,6 +17,7 @@ import UserSignUp from './Components/UserSignUp';
 import CreateCourse from './Components/CreateCourse';
 import UpdateCourse from './Components/UpdateCourse';
 import Forbidden from './Components/Forbidden';
+import Error from './Components/Error';
 import NotFound from './Components/NotFound';
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
         <Route path="/signup" render={UserSignUp}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
         <Route path="/forbidden" component={Forbidden}/>
+        <Route path="/error" component={Error}/>
         <Route component={NotFound}/>
       </Switch>
     </Router>
