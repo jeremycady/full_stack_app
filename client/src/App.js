@@ -38,7 +38,7 @@ function App() {
       <Switch>
         <Route exact path="/courses" render={ () => <Courses /> }/>
         <PrivateRoute path="/courses/create" authUser={authUser} Component={CreateCourse} />
-        <Route exact path="/courses/:id" component={CourseDetail}/>
+        <Route exact path="/courses/:id" render={(props) => <CourseDetail authUser={authUser} {...props}/>}/>
         <Route path="/signin" render={ () => <UserSignIn setAuthUser={setAuthUser} />}/>
         <Route path="/signup" render={UserSignUp}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
-const CourseDetail = ({match}) => {
+const CourseDetail = (props) => {
+  const {authUser, match } = props;
   const [course, setCourse] = useState({});
   const [isOwner, setIsOwner] = useState(true);
   const [errors, setErrors] = useState({});
   const history = useHistory();
-  const emailAddress = JSON.parse(Cookies.get('authUser')).emailAddress;
-  const password = JSON.parse(Cookies.get('authUser')).password;
 
   const ownerError = () => {
     return (
@@ -22,21 +20,19 @@ const CourseDetail = ({match}) => {
       </div>
     );
   };
-
-  let id = match.params.id;
   
   useEffect(() => {
-    fetch(`http://localhost:5000/api/courses/${id}`)
+    fetch(`http://localhost:5000/api/courses/${match.params.id}`)
       .then(res => res.json())
       .then(data => setCourse(data))
       .catch(err => console.log(err));
-  }, [id]);
+  }, []);
 
   const ownerData = {...course.owner};
 
   const handleUpdate = () => {
-    if (ownerData.emailAddress === emailAddress) {
-      history.push(`/courses/${id}/update`);
+    if (ownerData.emailAddress === authUser.emailAddress) {
+      history.push(`/courses/${match.params.id}/update`);
     } else {
       setIsOwner(false);
     }
@@ -49,12 +45,12 @@ const CourseDetail = ({match}) => {
   };
 
   async function handleDelete() {
-    if (ownerData.emailAddress === emailAddress) {
-      await fetch(`http://localhost:5000/api/courses/${id}`, {
+    if (ownerData.emailAddress === authUser.emailAddress) {
+      await fetch(`http://localhost:5000/api/courses/${match.params.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': 'Basic ' + btoa(`${emailAddress}:${password}`),
+        'Authorization': 'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`),
       },
       credentials: 'same-origin',
     })
