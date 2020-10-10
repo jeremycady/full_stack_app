@@ -4,21 +4,7 @@ import { useHistory } from 'react-router-dom';
 const CourseDetail = (props) => {
   const {authUser, match } = props;
   const [course, setCourse] = useState({});
-  const [isOwner, setIsOwner] = useState(true);
   const history = useHistory();
-
-  const ownerError = () => {
-    return (
-      <div>
-        <h2 className="validation--errors--label">Authorization Error</h2>
-        <div className="validation-errors">
-          <ul>
-            <li>You are not Authorized to make changes to this course</li>
-          </ul>
-        </div>
-      </div>
-    );
-  };
   
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${match.params.id}`)
@@ -39,7 +25,7 @@ const CourseDetail = (props) => {
 
   const handleUpdate = () => {
     if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
-      setIsOwner(false);
+      history.push('/forbidden');
     } else {
       history.push(`/courses/${match.params.id}/update`);
     }
@@ -64,7 +50,7 @@ const CourseDetail = (props) => {
     .then(res => checkStatus(res.status))
     .catch(err => console.log(err))
     } else {
-      setIsOwner(false);
+      history.push('/forbidden');
     }
   }
   
@@ -77,10 +63,6 @@ const CourseDetail = (props) => {
           </div>
         </div>
         <div className="bounds course--detail">
-
-          {!isOwner && ownerError()}
-          
-
           <div className="grid-66">
             <div className="course--header">
               <h4 className="course--label">Course</h4>

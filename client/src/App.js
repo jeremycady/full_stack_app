@@ -16,6 +16,7 @@ import UserSignIn from './Components/UserSignIn';
 import UserSignUp from './Components/UserSignUp';
 import CreateCourse from './Components/CreateCourse';
 import UpdateCourse from './Components/UpdateCourse';
+import Forbidden from './Components/Forbidden';
 import NotFound from './Components/NotFound';
 
 function App() {
@@ -42,7 +43,8 @@ function App() {
         <Route path="/signin" render={ (props) => <UserSignIn setAuthUser={setAuthUser} {...props}/>}/>
         <Route path="/signup" render={UserSignUp}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
-        <Route path="/notfound" component={NotFound}/>
+        <Route path="/forbidden" component={Forbidden}/>
+        <Route component={NotFound}/>
       </Switch>
     </Router>
   );
