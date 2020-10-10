@@ -1,6 +1,5 @@
 import React, { useEffect, useState }from 'react';
 import { useHistory } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import btoa from 'btoa';
 
 const UpdateCourse = (props) => {
@@ -8,19 +7,25 @@ const UpdateCourse = (props) => {
   const [errors, setErrors] = useState({});
   const {authUser} = props;
   const history = useHistory();
-
-  let id = props.computedMatch.params.id;
   
   useEffect(() => {
-    fetch(`http://localhost:5000/api/courses/${id}`)
-      .then(res => res.json())
-      .then(data => setCourse(data))
+    fetch(`http://localhost:5000/api/courses/${props.computedMatch.params.id}`)
+      .then(res => handleInitialFetch(res))
       .catch(err => console.log(err));
-  }, [id]);
+  }, [props.computedMatch.params.id]);
+
+  async function handleInitialFetch(res) {
+    if (res.status === 200) {
+      const data = await res.json();
+      setCourse(data);
+    } else {
+      history.push('/notfound');
+    }
+  };
 
   const handleCancel = e => {
     e.preventDefault();
-    history.push(`/courses/${id}`);
+    history.push(`/courses/${props.computedMatch.params.id}`);
   };
 
   const handleChange = (event) => {
@@ -29,20 +34,18 @@ const UpdateCourse = (props) => {
 
   const checkStatus = (status) => {
     if (status === 204) {
-      history.push(`/courses/${id}`);
+      history.push(`/courses/${props.computedMatch.params.id}`);
     }
   };
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const emailAddress = JSON.parse(Cookies.get('authUser')).emailAddress;
-    const password = JSON.parse(Cookies.get('authUser')).password;
     
-    await fetch(`http://localhost:5000/api/courses/${id}`, {
+    await fetch(`http://localhost:5000/api/courses/${props.computedMatch.params.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': 'Basic ' + btoa(`${emailAddress}:${password}`),
+        'Authorization': 'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`),
       },
       credentials: 'same-origin',
       body: JSON.stringify(course),

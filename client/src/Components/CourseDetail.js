@@ -29,14 +29,12 @@ const CourseDetail = (props) => {
   const ownerData = {...course.owner};
 
   async function handleInitialFetch(res) {
-    const data = await res.json();
     if (res.status === 200) {
+      const data = await res.json();
       setCourse(data);
     } else {
       history.push('/notfound');
     }
-    
-
   };
 
   const handleUpdate = () => {
