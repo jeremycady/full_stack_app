@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = (props) => {
   const { authUser, setAuthUser} = props;
@@ -11,11 +12,11 @@ const Header = (props) => {
     <React.Fragment>
       <div className="header">
         <div className="bounds">
-          <a href="/"><h1 className="header--logo">Courses</h1></a>
+          <Link to='/'><h1 className="header--logo">Courses</h1></Link>
           {
             authUser
-            ? <nav><span>{`Welcome, ${authUser.firstName}!`}</span><a className="signing" onClick={signOut} href="/">Sign Out</a></nav>
-            : <nav><a className="signup" href="sign-up.html">Sign Up</a><a className="signin" href="/signin">Sign In</a></nav>
+            ? <nav><span>{`Welcome, ${authUser.firstName}!`}</span><Link className="signing" onClick={signOut} to="/">Sign Out</Link></nav>
+            : <nav><Link className="signup" to='/signup'>Sign Up</Link><Link className="signin" to="/signin">Sign In</Link></nav>
           }
           
         </div>

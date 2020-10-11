@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 
 const CreateCourse = (props) => {
@@ -18,14 +17,12 @@ const CreateCourse = (props) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const emailAddress = JSON.parse(Cookies.get('authUser')).emailAddress;
-    const password = JSON.parse(Cookies.get('authUser')).password;
     
     await fetch(`http://localhost:5000/api/courses`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': 'Basic ' + btoa(`${emailAddress}:${password}`),
+        'Authorization': 'Basic ' + btoa(`${authUser.emailAddress}:${authUser.password}`),
       },
       credentials: 'same-origin',
       body: JSON.stringify(course),

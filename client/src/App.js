@@ -17,7 +17,7 @@ import UserSignUp from './Components/UserSignUp';
 import CreateCourse from './Components/CreateCourse';
 import UpdateCourse from './Components/UpdateCourse';
 import Forbidden from './Components/Forbidden';
-import Error from './Components/Error';
+import UnhandledError from './Components/UnhandledError';
 import NotFound from './Components/NotFound';
 
 function App() {
@@ -42,10 +42,10 @@ function App() {
         <PrivateRoute path="/courses/create" authUser={authUser} Component={CreateCourse} />
         <Route exact path="/courses/:id" render={(props) => <CourseDetail authUser={authUser} {...props}/>}/>
         <Route path="/signin" render={ (props) => <UserSignIn setAuthUser={setAuthUser} {...props}/>}/>
-        <Route path="/signup" render={UserSignUp}/>
+        <Route path="/signup" render={() => <UserSignUp setAuthUser={setAuthUser}/>}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
         <Route path="/forbidden" component={Forbidden}/>
-        <Route path="/error" component={Error}/>
+        <Route path="/error" component={UnhandledError}/>
         <Route component={NotFound}/>
       </Switch>
     </Router>
