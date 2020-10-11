@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const CourseDetail = (props) => {
   const {authUser, match } = props;
@@ -64,8 +65,18 @@ const CourseDetail = (props) => {
     <div>
         <div className="actions--bar">
           <div className="bounds">
-            <div className="grid-100"><span><span className="button" onClick={handleUpdate}>Update Course</span><span className="button" onClick={handleDelete}>Delete Course</span></span><a
-                className="button button-secondary" href="/">Return to List</a></div>
+            <div className="grid-100">
+            {
+              (authUser && ownerData.emailAddress === authUser.emailAddress)
+              ? <span>
+                  <Link className="button" onClick={handleUpdate}>Update Course</Link>
+                  <Link className="button" onClick={handleDelete}>Delete Course</Link>
+                </span>
+              : ''
+            }
+              
+              <Link className="button button-secondary" to="/">Return to List</Link>
+            </div>
           </div>
         </div>
         <div className="bounds course--detail">
