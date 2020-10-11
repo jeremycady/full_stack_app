@@ -22,8 +22,10 @@ import UnhandledError from './Components/UnhandledError';
 import NotFound from './Components/NotFound';
 
 function App() {
+  // initializes user to cookie informatin or to null
   const [authUser, setAuthUser] = useState(Cookies.getJSON('authUser') || null);
 
+  // creates a cookie if new authUser or removes cookie if set to null (signin/signout)
   useEffect(() => {
     if (authUser) {
       Cookies.set('authUser', authUser, {expires: 1});
@@ -34,17 +36,19 @@ function App() {
 
   return (
     <Router>
-      <Header authUser={authUser} setAuthUser={setAuthUser}/>
+      <Header authUser={authUser} />
       <Route exact path="/">
         <Redirect to="/courses" />
       </Route>
       <Switch>
         <Route exact path="/courses" render={ () => <Courses /> }/>
+        {/* Private route available to only authUser */}
         <PrivateRoute path="/courses/create" authUser={authUser} Component={CreateCourse} />
         <Route exact path="/courses/:id" render={(props) => <CourseDetail authUser={authUser} {...props}/>}/>
         <Route path="/signin" render={ (props) => <UserSignIn setAuthUser={setAuthUser} {...props}/>}/>
         <Route path="/signup" render={() => <UserSignUp setAuthUser={setAuthUser}/>}/>
         <Route path='/signout' render={() => <UserSignOut setAuthUser={setAuthUser} />}/>
+        {/* Private route available to only authUser */}
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
         <Route path="/forbidden" component={Forbidden}/>
         <Route path="/error" component={UnhandledError}/>

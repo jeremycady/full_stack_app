@@ -8,6 +8,7 @@ const UpdateCourse = (props) => {
   const {authUser} = props;
   const history = useHistory();
   
+  // fetches course details and sets course in state
   useEffect(() => {
     fetch(`http://localhost:5000/api/courses/${props.computedMatch.params.id}`)
       .then(res => {
@@ -27,15 +28,18 @@ const UpdateCourse = (props) => {
       .catch(err => console.log(err));
   }, [history, props.computedMatch.params.id]);
 
+  // return user to CourseDetail if cancelled
   const handleCancel = e => {
     e.preventDefault();
     history.push(`/courses/${props.computedMatch.params.id}`);
   };
 
+  // updates course form info on input values change
   const handleChange = (event) => {
     setCourse({...course, [event.target.name]: event.target.value});
   }
 
+  // on submit, sends authUser and updated course info to API
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -49,10 +53,13 @@ const UpdateCourse = (props) => {
       body: JSON.stringify(course),
     })
     .then(res => {
+      // successful put sends user to CourseDetail
       if (res.status === 204) {
         history.push(`/courses/${props.computedMatch.params.id}`);
+      // server error sends user to /error
       } else if (res.status === 500) {
         return history.push('/error');
+      // validation error displays errors
       } else if (res.status === 400) {
         const getErrors = async () => {
           const data = await res.json();
@@ -68,6 +75,7 @@ const UpdateCourse = (props) => {
   return (
     <div className="bounds course--detail">
         <h1>Update Course</h1>
+        {/* if validation errors, they are displayed */}
         {
           errors
           ? <div>

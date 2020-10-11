@@ -8,6 +8,12 @@ const Courses = () => {
 
   let courseList;
 
+  // compiles course list
+  if (courses) {
+    courseList = courses.map(course => <Course id={course.id} title={course.title} key={course.id}/>);
+  }
+
+  // fetches course data from API and sets courses in state
   useEffect(() => {
     
     fetch('http://localhost:5000/api/courses')
@@ -21,10 +27,6 @@ const Courses = () => {
       .catch(err => console.log(err))
       
   }, [history]);
-
-  if (courses) {
-    courseList = courses.map(course => <Course id={course.id} title={course.title} key={course.id}/>);
-  }
 
   return (
     <div className="bounds">

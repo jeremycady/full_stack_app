@@ -7,15 +7,18 @@ const CreateCourse = (props) => {
   const {authUser} = props;
   const history = useHistory();
 
+  // returns user to home page if canceled
   const handleCancel = e => {
     e.preventDefault();
     history.push(`/`);
   };
 
+  // updates form data when input values change
   const handleChange = (event) => {
     setCourse({...course, [event.target.name]: event.target.value});
   }
 
+  // sends POST request, with authUser info and course info
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -29,8 +32,10 @@ const CreateCourse = (props) => {
       body: JSON.stringify(course),
     })
     .then(res => {
+      // if server error sends to /error
       if (res.status === 500) {
         return history.push('/error');
+      // if validation error, displays errors
       } else if (res.status === 400) {
         const getErrors = async () => {
           const data = await res.json();
@@ -38,6 +43,7 @@ const CreateCourse = (props) => {
         };
 
         return getErrors();
+      // grabs new course location and pushes user to new course detail page
       } else {
         return res.headers.get('Location');
       }
@@ -49,6 +55,7 @@ const CreateCourse = (props) => {
   return (
     <div className="bounds course--detail">
     <h1>Create Course</h1>
+      {/* displays validation errors if errors */}
       {
         errors
         ? <div>

@@ -7,6 +7,7 @@ const UserSignIn = (props) => {
   const [ formInfo, setFormInfo ] = useState({emailAddress: '', password: ''});
   const history = useHistory();
 
+  // sends sign in information to API to check user credentials
   async function handleSubmit(event) {
     event.preventDefault();
     await fetch('http://localhost:5000/api/users', {
@@ -33,15 +34,15 @@ const UserSignIn = (props) => {
       }
     })
     .catch(err => console.log('Wrong authentication'))
-
-    
   }
 
+  // sends user to home if cancelled
   function handleCancel(event) {
     event.preventDefault();
     history.push('/');
   } 
 
+  // updates form info when input values change
   const change = (event) => {
     setFormInfo({...formInfo, [event.target.name]: event.target.value});
   }

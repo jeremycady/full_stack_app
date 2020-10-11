@@ -8,15 +8,18 @@ const UserSignUp = (props) => {
   const [errors, setErrors] = useState(null);
   const history = useHistory();
 
+  // sends user to home on cancel
   const handleCancel = e => {
     e.preventDefault();
     history.push(`/`);
   };
 
+  // updates form info when input values change
   const handleChange = (event) => {
     setFormInfo({...formInfo, [event.target.name]: event.target.value});
   }
 
+  // sends a post fetch to API with user info and returns valid or errors
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -29,10 +32,13 @@ const UserSignUp = (props) => {
       body: JSON.stringify(formInfo),
     })
     .then(res => {
+      // sends to /error if server error
       if (res.status === 500) {
         return history.push('/error');
+      // displays errors if validation errors
       } else if (res.status === 400) {
         return res.json();
+      // if valid, sets user info and redirecsts to home 
       } else {
         setAuthUser(formInfo);
         return history.push('/');
@@ -46,6 +52,7 @@ const UserSignUp = (props) => {
     <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
+          {/* displays validation errors if errors */}
           {
             errors
             ? <div>
