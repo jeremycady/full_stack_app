@@ -44,7 +44,7 @@ const CourseDetail = (props) => {
   };
 
   async function handleDelete() {
-    if (ownerData.emailAddress === authUser.emailAddress) {
+    if (authUser && ownerData.emailAddress === authUser.emailAddress) {
       await fetch(`http://localhost:5000/api/courses/${match.params.id}`, {
       method: 'DELETE',
       headers: {

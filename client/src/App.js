@@ -14,6 +14,7 @@ import Courses from './Components/Courses';
 import CourseDetail from './Components/CourseDetail';
 import UserSignIn from './Components/UserSignIn';
 import UserSignUp from './Components/UserSignUp';
+import UserSignOut from './Components/UserSignOut';
 import CreateCourse from './Components/CreateCourse';
 import UpdateCourse from './Components/UpdateCourse';
 import Forbidden from './Components/Forbidden';
@@ -43,6 +44,7 @@ function App() {
         <Route exact path="/courses/:id" render={(props) => <CourseDetail authUser={authUser} {...props}/>}/>
         <Route path="/signin" render={ (props) => <UserSignIn setAuthUser={setAuthUser} {...props}/>}/>
         <Route path="/signup" render={() => <UserSignUp setAuthUser={setAuthUser}/>}/>
+        <Route path='/signout' render={() => <UserSignOut setAuthUser={setAuthUser} />}/>
         <PrivateRoute path="/courses/:id/update" authUser={authUser} Component={UpdateCourse} />
         <Route path="/forbidden" component={Forbidden}/>
         <Route path="/error" component={UnhandledError}/>
