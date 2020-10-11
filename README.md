@@ -18,3 +18,4 @@ State is controlled entirely using React Hooks.
 6. In Terminal move to the client directory
 7. run `npm install` to install dependencies
 8. run `npm start` to start the server, which will run on localhost:3000
+9. If your browser doesn't open, do so and open localhost:3000
