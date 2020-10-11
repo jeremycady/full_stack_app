@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {Link} from 'react-router-dom';
+const ReactMarkdown = require('react-markdown')
 
 const CourseDetail = (props) => {
   const {authUser, match } = props;
@@ -87,7 +88,7 @@ const CourseDetail = (props) => {
               <p>By {ownerData.firstName} {ownerData.lastname}</p>
             </div>
             <div className="course--description">
-              {course.description}
+              <ReactMarkdown source={course.description}/>
             </div>
           </div>
           <div className="grid-25 grid-right">
@@ -100,7 +101,7 @@ const CourseDetail = (props) => {
                 <li className="course--stats--list--item">
                   <h4>Materials Needed</h4>
                   <ul>
-                    {course.materialsNeeded}
+                    <ReactMarkdown source={course.materialsNeeded}/>
                   </ul>
                 </li>
               </ul>

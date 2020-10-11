@@ -59,7 +59,7 @@ const UpdateCourse = (props) => {
           return setErrors(data.errors);
         };
 
-        getErrors();
+        return getErrors();
       }
     })
     .catch(err => console.log(err))

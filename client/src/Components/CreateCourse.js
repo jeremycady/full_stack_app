@@ -37,7 +37,7 @@ const CreateCourse = (props) => {
           return setErrors(data.errors);
         };
 
-        getErrors();
+        return getErrors();
       } else {
         return res.headers.get('Location');
       }
