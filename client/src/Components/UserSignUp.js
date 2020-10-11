@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 const UserSignUp = (props) => {
   const { setAuthUser } = props;
   const [ formInfo, setFormInfo ] = useState({});
+  const [errors, setErrors] = useState(null);
   const history = useHistory();
 
   const handleCancel = e => {
@@ -30,11 +31,14 @@ const UserSignUp = (props) => {
     .then(res => {
       if (res.status === 500) {
         return history.push('/error');
+      } else if (res.status === 400) {
+        return res.json();
       } else {
         setAuthUser(formInfo);
         return history.push('/');
       }
     })
+    .then(data => setErrors(data.errors))
     .catch(err => console.log(err))
   }
   
@@ -42,6 +46,18 @@ const UserSignUp = (props) => {
     <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
+          {
+            errors
+            ? <div>
+                <h2 className="validation--errors--label">Validation errors</h2>
+                <div className="validation-errors">
+                  <ul>
+                    {errors.map((error, index) => <li key={index}>{error}</li>)}
+                  </ul>
+                </div>
+              </div>
+            : ''
+          }
           <div>
             <form onSubmit={handleSubmit}>
               <div>
