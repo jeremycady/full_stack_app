@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 const CreateCourse = (props) => {
   const [course, setCourse] = useState({});
+  const [errors, setErrors] = useState(null);
   const {authUser} = props;
   const history = useHistory();
 
@@ -30,6 +31,13 @@ const CreateCourse = (props) => {
     .then(res => {
       if (res.status === 500) {
         return history.push('/error');
+      } else if (res.status === 400) {
+        const getErrors = async () => {
+          const data = await res.json();
+          return setErrors(data.errors);
+        };
+
+        getErrors();
       } else {
         return res.headers.get('Location');
       }
@@ -41,6 +49,18 @@ const CreateCourse = (props) => {
   return (
     <div className="bounds course--detail">
     <h1>Create Course</h1>
+      {
+        errors
+        ? <div>
+            <h2 className="validation--errors--label">Validation errors</h2>
+            <div className="validation-errors">
+              <ul>
+                {errors.map((error, index) => <li key={index}>{error}</li>)}
+              </ul>
+            </div>
+          </div>
+        : ''
+      }
       <div>
       <form onSubmit={handleSubmit}>
         <div className="grid-66">

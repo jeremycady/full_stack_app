@@ -4,6 +4,7 @@ import btoa from 'btoa';
 
 const UpdateCourse = (props) => {
   const [course, setCourse] = useState({});
+  const [errors, setErrors] = useState(null);
   const {authUser} = props;
   const history = useHistory();
   
@@ -52,13 +53,33 @@ const UpdateCourse = (props) => {
         history.push(`/courses/${props.computedMatch.params.id}`);
       } else if (res.status === 500) {
         return history.push('/error');
-      }})
+      } else if (res.status === 400) {
+        const getErrors = async () => {
+          const data = await res.json();
+          return setErrors(data.errors);
+        };
+
+        getErrors();
+      }
+    })
     .catch(err => console.log(err))
   }
 
   return (
     <div className="bounds course--detail">
         <h1>Update Course</h1>
+        {
+          errors
+          ? <div>
+              <h2 className="validation--errors--label">Validation errors</h2>
+              <div className="validation-errors">
+                <ul>
+                  {errors.map((error, index) => <li key={index}>{error}</li>)}
+                </ul>
+              </div>
+            </div>
+          : ''
+        }
         <div>
           <form onSubmit={handleSubmit}>
             <div className="grid-66">

@@ -69,8 +69,8 @@ const CourseDetail = (props) => {
             {
               (authUser && ownerData.emailAddress === authUser.emailAddress)
               ? <span>
-                  <Link className="button" onClick={handleUpdate}>Update Course</Link>
-                  <Link className="button" onClick={handleDelete}>Delete Course</Link>
+                  <button className="button" onClick={handleUpdate}>Update Course</button>
+                  <button className="button" onClick={handleDelete}>Delete Course</button>
                 </span>
               : ''
             }
