@@ -22,11 +22,18 @@ const UpdateCourse = (props) => {
       })
       .then(data => {
         if (data) {
-          return setCourse(data);
+          const ownerData = {...data.owner};
+          console.log(ownerData.emailAddress);
+          console.log(authUser.emailAddress);
+          if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
+            history.push('/forbidden');
+          } else {
+            return setCourse(data);
+          }
         }
       })
       .catch(err => console.log(err));
-  }, [history, props.computedMatch.params.id]);
+  }, [history, props.computedMatch.params.id, authUser]);
 
   // return user to CourseDetail if cancelled
   const handleCancel = e => {

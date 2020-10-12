@@ -32,13 +32,13 @@ const CourseDetail = (props) => {
   const ownerData = {...course.owner};
 
   // checks if correct authUser
-  const handleUpdate = () => {
-    if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
-      history.push('/forbidden');
-    } else {
-      history.push(`/courses/${match.params.id}/update`);
-    }
-  };
+  // const handleUpdate = () => {
+  //   if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
+  //     history.push('/forbidden');
+  //   } else {
+  //     history.push(`/courses/${match.params.id}/update`);
+  //   }
+  // };
 
   // checks the status of the handleDelete function
   const checkStatus = (status) => {
@@ -76,7 +76,7 @@ const CourseDetail = (props) => {
             {
               (authUser && ownerData.emailAddress === authUser.emailAddress)
               ? <span>
-                  <button className="button" onClick={handleUpdate}>Update Course</button>
+                  <Link className="button" to={`/courses/${match.params.id}/update`}>Update Course</Link>
                   <button className="button" onClick={handleDelete}>Delete Course</button>
                 </span>
               : ''

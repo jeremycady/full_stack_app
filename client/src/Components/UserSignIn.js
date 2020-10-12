@@ -21,6 +21,8 @@ const UserSignIn = (props) => {
     .then(res => {
       if (res.status === 500) {
         return history.push('/error');
+      } else if (res.status === 401) {
+        return history.push('/forbidden');
       } else {
         return res.json();
       }
