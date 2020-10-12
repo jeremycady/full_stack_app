@@ -60,7 +60,8 @@ function App() {
             setAuthUser={setAuthUser} 
             {...props} 
             // delete after reviews
-            signIn={signIn} 
+            signIn={signIn}
+            // delete after reviews 
           />}
         />
         <Route path="/signup" render={() => <UserSignUp setAuthUser={setAuthUser}/>}/>
@@ -69,6 +70,7 @@ function App() {
             setAuthUser={setAuthUser} 
             // delete after reviews
             signOut={signOut}
+            // delete after reviews
           />
         }/>
         {/* Private route available to only authUser */}
