@@ -34,12 +34,12 @@ function App() {
     }
   }, [authUser]);
 
-  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. The should be deleted after project has been officially reviewed.
+  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. This should be deleted after project has been officially reviewed.
   const signIn = (userData) => {
     setAuthUser(userData);
   };
 
-  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. The should be deleted after project has been officially reviewed.
+  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. This should be deleted after project has been officially reviewed.
   const signOut = () => {
     setAuthUser(null);
   };
