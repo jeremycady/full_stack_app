@@ -22,10 +22,7 @@ const UpdateCourse = (props) => {
       })
       .then(data => {
         if (data) {
-          const ownerData = {...data.owner};
-          console.log(ownerData.emailAddress);
-          console.log(authUser.emailAddress);
-          if (authUser && ownerData.emailAddress !== authUser.emailAddress) {
+          if (authUser && data.owner?.emailAddress !== authUser.emailAddress) {
             history.push('/forbidden');
           } else {
             return setCourse(data);

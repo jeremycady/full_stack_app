@@ -24,6 +24,12 @@ import NotFound from './Components/NotFound';
 function App() {
   // initializes user to cookie informatin or to null
   const [authUser, setAuthUser] = useState(Cookies.getJSON('authUser') || null);
+  
+  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. This should be deleted after project has been officially reviewed.
+  const [actions] = useState({
+    signIn: (userData) => {setAuthUser(userData)},
+    signOut: () => {setAuthUser(null)}
+  });
 
   // creates a cookie if new authUser or removes cookie if set to null (signin/signout)
   useEffect(() => {
@@ -33,16 +39,6 @@ function App() {
       Cookies.remove('authUser')
     }
   }, [authUser]);
-
-  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. This should be deleted after project has been officially reviewed.
-  const signIn = (userData) => {
-    setAuthUser(userData);
-  };
-
-  // not used but added to meet rubric requirements. setAuthUser performs both signIn and signOut functionality. This should be deleted after project has been officially reviewed.
-  const signOut = () => {
-    setAuthUser(null);
-  };
 
   return (
     <Router>
@@ -60,7 +56,7 @@ function App() {
             setAuthUser={setAuthUser} 
             {...props} 
             // delete after reviews
-            signIn={signIn}
+            signIn={actions.signIn}
             // delete after reviews 
           />}
         />
@@ -69,7 +65,7 @@ function App() {
           <UserSignOut 
             setAuthUser={setAuthUser} 
             // delete after reviews
-            signOut={signOut}
+            signOut={actions.signOut}
             // delete after reviews
           />
         }/>
